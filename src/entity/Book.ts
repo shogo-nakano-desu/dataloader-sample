@@ -1,4 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, Relation, OneToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  Relation,
+  OneToMany,
+} from 'typeorm';
 import { Author } from './Author';
 import { Version } from './Version';
 
