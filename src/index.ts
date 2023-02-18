@@ -5,6 +5,8 @@ import { Author } from './entity/Author';
 import { Book } from './entity/Book';
 import 'reflect-metadata';
 import { Version } from './entity/Version';
+import { In } from 'typeorm';
+import DataLoader from 'dataloader';
 
 // initialize database
 await AppDataSource.initialize();
@@ -33,16 +35,14 @@ const typeDefs = `#graphql
   type Query {
     getAuthorById(id: Int!): Author
   }
-
-  
 `;
 
 const resolvers = {
   Author: {
-    books: async (parent: Author) => await booksOfAuthor(parent),
+    books: async (parent: Author) => await booksLoader.load(parent.id),
   },
   Book: {
-    versions: async(parent: Book) => await versionsOfBook(parent),
+    versions: async(parent: Book) => await versionsLoader.load(parent.id),
   },
   Query: {
     authors: async () => await authors(),
@@ -59,15 +59,38 @@ async function getAuthorById(id: number): Promise<Author>{
   return await authorRepository.findOneBy({id})
 }
 
-async function booksOfAuthor(author: Author): Promise<Book[]> {
-  const booksRepository = AppDataSource.getRepository(Book);
-  return await booksRepository.find({ where: { author } });
-}
+const booksLoader = new DataLoader(async(keys: number[]): Promise<Book[][]> =>{
+  const bookRepository = AppDataSource.getRepository(Book);
+  // const books = await bookRepository.find({author: {id: In(keys)}})
+  const books = await bookRepository.find({
+    where : {
+      author: {
+        id: In(keys)
+      }
+    },
+    relations: {
+      author: true
+    }
+  })
+  return keys.map((authorId) => books.filter((book)=>book.author.id === authorId))
+})
 
-async function versionsOfBook(book: Book): Promise<Version[]> {
-  const versionsRepository = AppDataSource.getRepository(Version);
-  return await versionsRepository.find({ where: { book } });
-}
+const versionsLoader = new DataLoader(async(keys: number[]): Promise<Version[][]> =>{
+  const versionRepository = AppDataSource.getRepository(Version);
+  // const books = await bookRepository.find({author: {id: In(keys)}})
+  const versions = await versionRepository.find({
+    where : {
+      book: {
+        id: In(keys)
+      }
+    },
+    relations: {
+      book: true
+    }
+  })
+  return keys.map((bookId) => versions.filter((version)=>version.book.id === bookId))
+})
+
 
 // Server
 const server = new ApolloServer({
@@ -80,5 +103,3 @@ const { url } = await startStandaloneServer(server, {
 });
 
 console.log(`🚀  Server ready at: ${url}`);
-
-// Add initial data into database
