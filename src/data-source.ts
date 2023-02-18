@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import { DataSource } from 'typeorm';
 import { Author } from './entity/Author';
 import { Book } from './entity/Book';
+import { Version } from './entity/Version';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
@@ -12,5 +13,5 @@ export const AppDataSource = new DataSource({
   database: 'docker',
   synchronize: true,
   logging: true,
-  entities: [Author, Book],
+  entities: [Author, Book, Version],
 });
