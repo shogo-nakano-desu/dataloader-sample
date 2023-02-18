@@ -2,11 +2,18 @@
   "compilerOptions": {
     "rootDirs": ["src"],
     "outDir": "dist",
-    "lib": ["es2020"],
-    "target": "es2020",
-    "module": "esnext",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "types": ["node"]
-  }
+    "allowJs": false,
+    "module": "ES2022",
+    "moduleResolution": "Node",
+    "target": "ES2021",
+    "skipLibCheck": true,
+    "strictPropertyInitialization": false,
+    "noUncheckedIndexedAccess": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": ["node_modules", "dist"],
 }
