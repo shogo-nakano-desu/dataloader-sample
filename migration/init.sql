@@ -1,3 +1,102 @@
+----------------
+--Person, Item, Store
+----------------
+-- Person
+INSERT INTO
+    person
+VALUES
+    (1, 'John Doe');
+
+INSERT INTO
+    person
+VALUES
+    (2, 'Naruto');
+
+INSERT INTO
+    person
+VALUES
+    (3, 'Keisuke Honda');
+
+-- Item
+INSERT INTO
+    item
+VALUES
+    (1, 'airpods', 1);
+
+INSERT INTO
+    item
+VALUES
+    (2, 'wallet', 1);
+
+INSERT INTO
+    item
+VALUES
+    (3, 'apple', 2);
+
+INSERT INTO
+    item
+VALUES
+    (4, 'pen', 2);
+
+INSERT INTO
+    item
+VALUES
+    (5, 'pinapple', 2);
+
+INSERT INTO
+    item
+VALUES
+    (6, 'macbook pro', 3);
+
+INSERT INTO
+    item
+VALUES
+    (7, 'hhkb', 3);
+
+-- Store
+INSERT INTO
+    store
+VALUES
+    (1, 'lowson', 1);
+
+INSERT INTO
+    store
+VALUES
+    (2, 'seven eleven', 1);
+
+INSERT INTO
+    store
+VALUES
+    (3, 'palco', 2);
+
+INSERT INTO
+    store
+VALUES
+    (4, 'shibuya stream', 3);
+
+INSERT INTO
+    store
+VALUES
+    (5, 'family mart', 4);
+
+INSERT INTO
+    store
+VALUES
+    (6, 'united arrows', 5);
+
+INSERT INTO
+    store
+VALUES
+    (7, 'amazon', 6);
+
+INSERT INTO
+    store
+VALUES
+    (8, 'rakuten', 7);
+
+----------------
+--Author, Book, Version
+----------------
 -- Author
 INSERT INTO
     author

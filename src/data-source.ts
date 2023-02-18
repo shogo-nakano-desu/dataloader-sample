@@ -3,6 +3,9 @@ import { DataSource } from 'typeorm';
 import { Author } from './entity/Author';
 import { Book } from './entity/Book';
 import { Version } from './entity/Version';
+import { Item } from './entity/Item';
+import { Person } from './entity/Person';
+import { Store } from './entity/Store';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
@@ -13,5 +16,5 @@ export const AppDataSource = new DataSource({
   database: 'docker',
   synchronize: true,
   logging: true,
-  entities: [Author, Book, Version],
+  entities: [Person, Item, Store, Author, Book, Version],
 });
