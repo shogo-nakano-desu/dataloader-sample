@@ -5,63 +5,6 @@ import { Author } from './entity/Author';
 import { Book } from './entity/Book';
 import 'reflect-metadata';
 
-// Sample data
-// const books = [
-//   {
-//     title: 'The Awakening',
-//     // author: 'Kate Chopin',
-//   },
-//   {
-//     title: 'A Night in Acadie',
-//     // author: 'Kate Chopin',
-//   },
-//   {
-//     title: 'Bayou Folk',
-//     // author: 'Kate Chopin',
-//   },
-//   {
-//     title: 'City of Glass',
-//     // author: 'Paul Auster',
-//   },
-//   {
-//     title: 'Squeeze Play ',
-//     // author: 'Paul Auster',
-//   },
-// ];
-
-// const authors = [
-//   {
-//     name: 'Kate Chopin',
-//     books: [
-//       {
-//         title: 'The Awakening',
-//         // author: 'Kate Chopin',
-//       },
-//       {
-//         title: 'A Night in Acadie',
-//         // author: 'Kate Chopin',
-//       },
-//       {
-//         title: 'Bayou Folk',
-//         // author: 'Kate Chopin',
-//       },
-//     ],
-//   },
-//   {
-//     name: 'Paul Auster',
-//     books: [
-//       {
-//         title: 'City of Glass',
-//         // author: 'Paul Auster',
-//       },
-//       {
-//         title: 'Squeeze Play ',
-//         // author: 'Paul Auster',
-//       },
-//     ],
-//   },
-// ];
-
 // initialize database
 await AppDataSource.initialize();
 
