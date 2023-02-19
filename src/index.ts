@@ -68,24 +68,49 @@ const typeDefs = `#graphql
 
 const resolvers = {
   Person: {
-    items: async (parent: Person) => await itemsOfPerson(parent),
+    items: async (parent: Person) => {
+      const items = await itemsOfPerson(parent);
+      console.log('items are fetched');
+      return items;
+    },
   },
   Item: {
-    stores: async (parent: Item) => await storesOfItem(parent),
+    stores: async (parent: Item) => {
+      const stores = await storesOfItem(parent);
+      console.log('stores are fetched');
+      return stores;
+    },
   },
   Author: {
-    books: async (parent: Author) => await booksLoader.load(parent.id),
+    books: async (parent: Author) => {
+      const books = await booksLoader.load(parent.id);
+      console.log('books are fetched');
+      return books;
+    },
   },
   Book: {
-    versions: async (parent: Book) => await versionsLoader.load(parent.id),
+    versions: async (parent: Book) => {
+      const versions = await versionsLoader.load(parent.id);
+      console.log('versions are fetched');
+      return versions;
+    },
   },
   Query: {
-    people: async () => await people(),
-    authors: async () => await authors(),
+    people: async () => {
+      const p = await people();
+      console.log('people are fetched');
+      return p;
+    },
+    authors: async () => {
+      const a = await authors();
+      console.log('authors are fetched');
+      return a;
+    },
     getAuthorById: async (id: number) => await getAuthorById(id),
   },
 };
 
+// People, Item, Store
 async function people(): Promise<Person[]> {
   const userRepository = AppDataSource.getRepository(Person);
   return await userRepository.find();
@@ -94,11 +119,12 @@ async function itemsOfPerson(person: Person): Promise<Item[]> {
   const itemsRepository = AppDataSource.getRepository(Item);
   return await itemsRepository.find({ where: { person } });
 }
-async function storesOfItem(item:Item): Promise<Store[]>{
+async function storesOfItem(item: Item): Promise<Store[]> {
   const storeRepository = AppDataSource.getRepository(Store);
   return await storeRepository.find({ where: { item } });
 }
 
+// Author, Book, Version
 async function authors(): Promise<Author[]> {
   const authorRepository = AppDataSource.getRepository(Author);
   return await authorRepository.find();
@@ -110,38 +136,38 @@ async function getAuthorById(id: number): Promise<Author> {
 }
 
 const booksLoader = new DataLoader(
-  async (keys: number[]): Promise<Book[][]> => {
+  async (authorIds: number[]): Promise<Book[][]> => {
     const bookRepository = AppDataSource.getRepository(Book);
     const books = await bookRepository.find({
       where: {
         author: {
-          id: In(keys),
+          id: In(authorIds),
         },
       },
       relations: {
         author: true,
       },
     });
-    return keys.map((authorId) =>
+    return authorIds.map((authorId) =>
       books.filter((book) => book.author.id === authorId),
     );
   },
 );
 
 const versionsLoader = new DataLoader(
-  async (keys: number[]): Promise<Version[][]> => {
+  async (bookIds: number[]): Promise<Version[][]> => {
     const versionRepository = AppDataSource.getRepository(Version);
     const versions = await versionRepository.find({
       where: {
         book: {
-          id: In(keys),
+          id: In(bookIds),
         },
       },
       relations: {
         book: true,
       },
     });
-    return keys.map((bookId) =>
+    return bookIds.map((bookId) =>
       versions.filter((version) => version.book.id === bookId),
     );
   },
