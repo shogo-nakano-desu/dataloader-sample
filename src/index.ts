@@ -64,6 +64,9 @@ const typeDefs = `#graphql
   type Query{
     items: [Item]
   }
+  type Query{
+    explainExecutionOrder: String
+  }
 `;
 
 const resolvers = {
@@ -107,8 +110,40 @@ const resolvers = {
       return a;
     },
     getAuthorById: async (id: number) => await getAuthorById(id),
+    explainExecutionOrder: async () => await explainExecutionOrder(),
   },
 };
+
+// Explain execution order
+async function explainExecutionOrder(): Promise<string> {
+  function asyncFn(s: string) {
+    return setTimeout(() => console.log(`${s} asyncFn`, 0));
+  }
+  function asyncFn2(s: string) {
+    return setTimeout(() => console.log(`${s} asyncFn2`, 0));
+  }
+
+  // 3.1
+  asyncFn('3.1 outside Promise.then before process.nextTick');
+  // 5
+  process.nextTick(asyncFn2);
+  // 3.2
+  asyncFn('3.2 outside Promise.then after process.nextTick');
+
+  const promiseJob = Promise.resolve();
+  promiseJob.then(() => {
+    // 6
+    process.nextTick(asyncFn);
+    // 4
+    setTimeout(() => console.log('4. inside Promise.then asyncFn', 0));
+    // 2
+    console.log('2. inside Promise.then synchronous job');
+  });
+
+  // 1
+  console.log('1. synchronous job');
+  return 'done';
+}
 
 // People, Item, Store
 async function people(): Promise<Person[]> {
