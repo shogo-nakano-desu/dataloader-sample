@@ -38,10 +38,6 @@ INSERT INTO
 VALUES
     (4, 'pen', 2);
 
--- INSERT INTO
---     item
--- VALUES
---     (5, 'pinapple', 2);
 INSERT INTO
     item
 VALUES
