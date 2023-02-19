@@ -1,8 +1,9 @@
 # compiled output
 /dist
 /node_modules/*
-
-!/node_modules/dataloader/
+!/node_modules/dataloader/*
+/node_modules/dataloader/*
+!/node_modules/dataloader/index.js
 
 # Logs
 logs
