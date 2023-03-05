@@ -6,3 +6,6 @@
    1. `typeorm migration:create ./src/migrations/something-you-want-to-do`
 3. Execute migration
    1. `yarn migration:run`
+
+Reference
+https://typeorm.io/migrations#how-migrations-work
