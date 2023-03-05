@@ -1,6 +1,5 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
-import { AppDataSource } from './data-source';
 import { Author } from './entity/Author';
 import { Book } from './entity/Book';
 import 'reflect-metadata';
@@ -10,6 +9,7 @@ import DataLoader from 'dataloader';
 import { Item } from './entity/Item';
 import { Person } from './entity/Person';
 import { Store } from './entity/Store';
+import { AppDataSource } from './data-source';
 
 // initialize database
 await AppDataSource.initialize();

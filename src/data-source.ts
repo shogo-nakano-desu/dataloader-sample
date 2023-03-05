@@ -1,11 +1,7 @@
 import 'reflect-metadata';
 import { DataSource } from 'typeorm';
-import { Author } from './entity/Author';
-import { Book } from './entity/Book';
-import { Version } from './entity/Version';
-import { Item } from './entity/Item';
-import { Person } from './entity/Person';
-import { Store } from './entity/Store';
+import * as dotenv from 'dotenv'
+dotenv.config()
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
@@ -14,7 +10,8 @@ export const AppDataSource = new DataSource({
   username: 'postgres',
   password: 'password',
   database: 'docker',
-  synchronize: true,
+  synchronize: process.env.NODE_ENV === 'production' ? false : true,
   logging: true,
-  entities: [Person, Item, Store, Author, Book, Version],
+  entities: ["src/entity/*{.ts,.js}"],
+  migrations: ["src/migrations/*.ts"],
 });
